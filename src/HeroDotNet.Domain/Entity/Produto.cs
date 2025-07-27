@@ -1,17 +1,6 @@
-﻿namespace HeroDotNet.Domain.Entity;
+﻿using HeroDotNet.Domain.Core;
 
-public readonly struct ProdutoId
-{
-    public Guid Value { get; }
-
-    public ProdutoId(Guid value) => Value = value;
-
-    public static ProdutoId NewGuid() => new(Guid.NewGuid());
-    public override string ToString() => Value.ToString();
-
-    public static implicit operator Guid(ProdutoId id) => id.Value;
-    public static explicit operator ProdutoId(Guid id) => new(id);
-}
+namespace HeroDotNet.Domain.Entity;
 
 public sealed class Produto
 {
@@ -27,7 +16,7 @@ public sealed class Produto
         DataAlteracao = DateTime.UtcNow;
     }
 
-    public ProdutoId Id { get; }
+    public TbProdutoId Id { get; }
     public string? NomeProduto { get; private set; }
     public DateTime DataCriacao { get; private set; }
     public DateTime? DataAlteracao { get; private set; }
