@@ -1,29 +1,68 @@
-﻿using HeroDotNet.Application.Services.IServices;
-using HeroDotNet.Domain.Core;
+﻿using HeroDotNet.Domain.Core;
 using HeroDotNet.Domain.Entity;
 using HeroDotNet.Domain.IRepository;
+using StackExchange.Redis;
+using System.Text.Json;
 
 namespace HeroDotNet.Application.Services;
 
-internal class ProdutoRepositoryCacheDecorator(IProdutoRepository produtoRepository) : IProdutoServices
+internal class ProdutoRepositoryCacheDecorator(IProdutoRepository produtoRepository,
+                                               IDatabase dbCacheRedis) : IProdutoRepository
 {
-    public Task AdicionarProduto(Produto produto)
+    public async Task AdicionarProduto(Produto produto)
     {
-        throw new NotImplementedException();
+        await produtoRepository.AdicionarProduto(produto);
+        await dbCacheRedis.KeyDeleteAsync(produto.Id.ToString());
     }
 
-    public Task AdicionarProdutos(Produto[] produtos)
+    public async Task AdicionarProdutos(Produto[] produtos)
     {
-        throw new NotImplementedException();
+        await produtoRepository.AdicionarProdutos(produtos);
+        foreach (var produto in produtos)
+        {
+            await dbCacheRedis.KeyDeleteAsync(produto.Id.ToString());
+        }
     }
 
-    public Task<Produto?> ObterProdutoPorId(TbProdutoId produtoId)
+    public async Task<Produto?> ObterProdutoPorId(TbProdutoId produtoId)
     {
-        throw new NotImplementedException();
+        var cacheProduto = await dbCacheRedis.StringGetAsync(produtoId.ToString());
+
+        if (cacheProduto.HasValue)
+            return JsonSerializer.Deserialize<Produto>(cacheProduto);
+
+        var produto = await produtoRepository.ObterProdutoPorId(produtoId);
+
+        if (produto is not null)
+        {
+            await dbCacheRedis.StringSetAsync(
+                produtoId.ToString(),
+                JsonSerializer.Serialize(produto),
+                TimeSpan.FromMinutes(10)
+            );
+        }
+
+        return produto;
     }
 
-    public Task<Produto[]> ObterProdutosPorNome(string nomeProduto)
+    public async Task<Produto[]?> ObterProdutosPorNome(string nomeProduto)
     {
-        throw new NotImplementedException();
+        var cacheProduto = await dbCacheRedis.StringGetAsync(nomeProduto);
+
+        if (cacheProduto.HasValue)
+            return JsonSerializer.Deserialize<Produto[]?>(cacheProduto);
+
+        var produto = await produtoRepository.ObterProdutosPorNome(nomeProduto);
+
+        if (produto is not null)
+        {
+            await dbCacheRedis.StringSetAsync(
+                nomeProduto,
+                JsonSerializer.Serialize(produto),
+                TimeSpan.FromMinutes(10)
+            );
+        }
+
+        return produto;
     }
 }
