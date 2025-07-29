@@ -1,6 +1,5 @@
 ﻿using HeroDotNet.Data.HeroContext;
 using HeroDotNet.Domain.IRepository;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace HeroDotNet.Data.Repository;
