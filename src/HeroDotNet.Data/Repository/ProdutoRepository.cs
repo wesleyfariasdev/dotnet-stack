@@ -6,8 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeroDotNet.Data.Repository;
 
-internal class ProdutoRepository(HeroContextDb context,
-                                 IUnitOfWork unitOfWork) : IProdutoRepository
+internal class ProdutoRepository(HeroContextDb context) : IProdutoRepository
 {
     public async Task AdicionarProduto(Produto produto)
     {
@@ -15,7 +14,6 @@ internal class ProdutoRepository(HeroContextDb context,
             throw new ArgumentNullException(nameof(produto), "Produto cannot be null.");
 
         await context.Produtos.AddAsync(produto);
-        await unitOfWork.CommitAsync();
     }
 
     public async Task AdicionarProdutos(Produto[] produtos)
@@ -24,7 +22,6 @@ internal class ProdutoRepository(HeroContextDb context,
             throw new Exception("No products to add. The array is empty.");
 
         await context.Produtos.AddRangeAsync(produtos);
-        await unitOfWork.CommitAsync();
     }
 
     public async Task<Produto?> ObterProdutoPorId(TbProdutoId produtoId) =>
