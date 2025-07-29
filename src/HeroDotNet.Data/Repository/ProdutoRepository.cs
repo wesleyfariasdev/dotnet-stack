@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeroDotNet.Data.Repository;
 
-internal class ProdutoRepository(HeroContextDb context) : IProdutoRepository
+public class ProdutoRepository(HeroContextDb context) : IProdutoRepository
 {
     public async Task AdicionarProduto(Produto produto)
     {

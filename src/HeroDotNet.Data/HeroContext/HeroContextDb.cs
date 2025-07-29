@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeroDotNet.Data.HeroContext;
 
-internal class HeroContextDb(DbContextOptions<HeroContextDb> opt) : DbContext(opt)
+public class HeroContextDb(DbContextOptions<HeroContextDb> opt) : DbContext(opt)
 {
     public DbSet<Produto> Produtos { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)

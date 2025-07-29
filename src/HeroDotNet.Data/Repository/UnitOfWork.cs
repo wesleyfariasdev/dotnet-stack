@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace HeroDotNet.Data.Repository;
 
-internal class UnitOfWork(HeroContextDb dbContext,
-                          IDbContextTransaction dbContextTransaction) : IUnitOfWork
+public class UnitOfWork(HeroContextDb dbContext,
+                        IDbContextTransaction dbContextTransaction) : IUnitOfWork
 {
     public async Task BeginTransactionAsync() =>
            await dbContext.Database.BeginTransactionAsync();
