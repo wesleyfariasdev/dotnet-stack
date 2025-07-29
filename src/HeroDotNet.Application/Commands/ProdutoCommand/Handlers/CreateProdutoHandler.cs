@@ -5,7 +5,8 @@ using MediatR;
 
 namespace HeroDotNet.Application.Commands.ProdutoCommand.Handlers;
 
-public class CreateProdutoHandler(IProdutoRepository produtoRepository, IUnitOfWork unitOfWork) : IRequestHandler<CreateProdutoCommand, TbProdutoId>
+public class CreateProdutoHandler(IProdutoRepository produtoRepository,
+                                  IUnitOfWork unitOfWork) : IRequestHandler<CreateProdutoCommand, TbProdutoId>
 {
     public async Task<TbProdutoId> Handle(CreateProdutoCommand request, CancellationToken cancellationToken)
     {

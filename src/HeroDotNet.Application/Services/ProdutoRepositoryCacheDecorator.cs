@@ -6,8 +6,8 @@ using System.Text.Json;
 
 namespace HeroDotNet.Application.Services;
 
-internal class ProdutoRepositoryCacheDecorator(IProdutoRepository produtoRepository,
-                                               IDatabase dbCacheRedis) : IProdutoRepository
+public class ProdutoRepositoryCacheDecorator(IProdutoRepository produtoRepository,
+                                             IDatabase dbCacheRedis) : IProdutoRepository
 {
     public async Task AdicionarProduto(Produto produto)
     {
