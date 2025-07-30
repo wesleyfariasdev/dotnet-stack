@@ -1,4 +1,5 @@
 ﻿using HeroDotNet.Application.Commands.ProdutoCommand.Handlers;
+using HeroDotNet.Application.Queries.ProdutoQueries.Handlers;
 using HeroDotNet.Application.Services;
 using HeroDotNet.Data.Repository;
 using HeroDotNet.Domain.IRepository;
@@ -33,6 +34,7 @@ public static class InfraServices
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProdutoHandler).Assembly));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProdutoByIdHandler).Assembly));
 
         return services;
     }
