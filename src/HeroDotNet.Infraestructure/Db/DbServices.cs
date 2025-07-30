@@ -15,8 +15,7 @@ public static class DbServices
             connectionString = config.GetConnectionString("DEV");
 
         services.AddDbContext<HeroContextDb>(q => q.UseSqlServer(connectionString,
-                                                  q => q.MigrationsAssembly(typeof(HeroContextDb)
-                                                        .Assembly.FullName)));
+                                             q => q.MigrationsAssembly(typeof(HeroContextDb).Assembly.FullName)));
 
         return services;
     }
