@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroDotNet.Api", "src\HeroD
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BFB969BC-058B-47E1-8498-28D73C4EC334}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroDotNet.Domain.Test", "test\HeroDotNet.Domain.Test\HeroDotNet.Domain.Test.csproj", "{F3147983-C3D2-4F6D-B3DA-BC686E0949D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,10 @@ Global
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3147983-C3D2-4F6D-B3DA-BC686E0949D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3147983-C3D2-4F6D-B3DA-BC686E0949D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3147983-C3D2-4F6D-B3DA-BC686E0949D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3147983-C3D2-4F6D-B3DA-BC686E0949D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +65,7 @@ Global
 		{5F656F1F-52D7-4D6A-8566-0121686A50E1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{BF8CE8B6-4C07-44C0-B9A7-58CCFF4CF51C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{95D6B77F-0C0C-4D00-B144-D554188068EE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F3147983-C3D2-4F6D-B3DA-BC686E0949D3} = {BFB969BC-058B-47E1-8498-28D73C4EC334}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E4A0B69B-0501-40E0-8728-7476FCC30AA2}
