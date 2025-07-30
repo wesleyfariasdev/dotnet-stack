@@ -13,10 +13,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/HeroDotNet.Api/HeroDotNet.Api.csproj", "src/HeroDotNet.Api/"]
-COPY ["src/HeroDotNet.Infraestructure/HeroDotNet.Infraestructure.csproj", "src/HeroDotNet.Infraestructure/"]
-COPY ["src/HeroDotNet.Application/HeroDotNet.Application.csproj", "src/HeroDotNet.Application/"]
-COPY ["src/HeroDotNet.Domain/HeroDotNet.Domain.csproj", "src/HeroDotNet.Domain/"]
-COPY ["src/HeroDotNet.Data/HeroDotNet.Data.csproj", "src/HeroDotNet.Data/"]
 RUN dotnet restore "./src/HeroDotNet.Api/HeroDotNet.Api.csproj"
 COPY . .
 WORKDIR "/src/src/HeroDotNet.Api"
