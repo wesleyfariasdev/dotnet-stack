@@ -1,4 +1,5 @@
 ﻿using HeroDotNet.Application.Dto;
+using HeroDotNet.Domain.Core;
 using HeroDotNet.Domain.IRepository;
 using MediatR;
 
@@ -11,7 +12,7 @@ public class GetProdutoByIdHandler(IProdutoRepository produtoRepository) : IRequ
         var produto = await produtoRepository.ObterProdutoPorId(request.Id);
         return produto is null ? null : new ProductResponseDto
         {
-            Id = produto.Id,
+            Id = request.Id,
             NomeProduto = produto.NomeProduto,
             DataCriacao = produto.DataCriacao,
             DataAlteracao = produto.DataAlteracao
