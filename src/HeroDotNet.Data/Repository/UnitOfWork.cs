@@ -4,39 +4,52 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace HeroDotNet.Data.Repository;
 
-public class UnitOfWork(HeroContextDb dbContext,
-                        IDbContextTransaction dbContextTransaction) : IUnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
-    public async Task BeginTransactionAsync() =>
-           await dbContext.Database.BeginTransactionAsync();
+    private readonly HeroContextDb _dbContext;
+    private IDbContextTransaction? _dbContextTransaction;
+
+    public UnitOfWork(HeroContextDb dbContext)
+    {
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+    }
+
+    public async Task BeginTransactionAsync()
+    {
+        _dbContextTransaction = await _dbContext.Database.BeginTransactionAsync();
+    }
 
     public async Task CommitAsync()
     {
         try
         {
-            await dbContext.SaveChangesAsync();
-            if (dbContextTransaction != null)
-                await dbContextTransaction.CommitAsync();
+            await _dbContext.SaveChangesAsync();
+            if (_dbContextTransaction != null)
+                await _dbContextTransaction.CommitAsync();
         }
         finally
         {
-            if (dbContextTransaction != null)
-                await dbContextTransaction.DisposeAsync();
+            if (_dbContextTransaction != null)
+            {
+                await _dbContextTransaction.DisposeAsync();
+                _dbContextTransaction = null;
+            }
+        }
+    }
+
+    public async Task RollbackAsync()
+    {
+        if (_dbContextTransaction != null)
+        {
+            await _dbContextTransaction.RollbackAsync();
+            await _dbContextTransaction.DisposeAsync();
+            _dbContextTransaction = null;
         }
     }
 
     public void Dispose()
     {
-        dbContextTransaction?.Dispose();
-        dbContext.Dispose();
-    }
-
-    public async Task RollbackAsync()
-    {
-        if (dbContextTransaction != null)
-        {
-            await dbContextTransaction.RollbackAsync();
-            await dbContextTransaction.DisposeAsync();
-        }
+        _dbContextTransaction?.Dispose();
+        _dbContext.Dispose();
     }
 }
