@@ -6,6 +6,9 @@ public sealed class Produto
 {
     public Produto(string? nomeProduto)
     {
+        if (string.IsNullOrWhiteSpace(nomeProduto))
+            throw new ArgumentException("Nome do produto é obrigatório.");
+
         Id = TbProdutoId.New();
         NomeProduto = nomeProduto;
         DataCriacao = DateTime.UtcNow;
@@ -17,7 +20,7 @@ public sealed class Produto
         DataAlteracao = DateTime.UtcNow;
     }
 
-    public TbProdutoId Id { get; private set; }
+    public TbProdutoId Id { get; }
     public string? NomeProduto { get; private set; }
     public DateTime DataCriacao { get; private set; }
     public DateTime? DataAlteracao { get; private set; }
