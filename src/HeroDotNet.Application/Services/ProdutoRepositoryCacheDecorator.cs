@@ -26,24 +26,27 @@ public class ProdutoRepositoryCacheDecorator(IProdutoRepository produtoRepositor
 
     public async Task<Produto?> ObterProdutoPorId(TbProdutoId produtoId)
     {
-        var cacheProduto = await dbCacheRedis.StringGetAsync(produtoId.ToString());
+        var cacheKey = $"produto:{produtoId}";
+        var cacheProduto = await dbCacheRedis.StringGetAsync(cacheKey);
+
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new TbProdutoIdJsonConverter() }
+        };
 
         if (cacheProduto.HasValue)
-            return JsonSerializer.Deserialize<Produto>(cacheProduto);
+            return JsonSerializer.Deserialize<Produto>(cacheProduto, options);
 
         var produto = await produtoRepository.ObterProdutoPorId(produtoId);
 
         if (produto is not null)
-        {
-            await dbCacheRedis.StringSetAsync(
-                produtoId.ToString(),
-                JsonSerializer.Serialize(produto),
-                TimeSpan.FromMinutes(10)
-            );
-        }
+            await dbCacheRedis.StringSetAsync(cacheKey,
+                                              JsonSerializer.Serialize(produto, options),
+                                              TimeSpan.FromMinutes(5));
 
         return produto;
     }
+
 
     public async Task<Produto[]?> ObterProdutosPorNome(string nomeProduto)
     {
@@ -59,7 +62,7 @@ public class ProdutoRepositoryCacheDecorator(IProdutoRepository produtoRepositor
             await dbCacheRedis.StringSetAsync(
                 nomeProduto,
                 JsonSerializer.Serialize(produto),
-                TimeSpan.FromMinutes(10)
+                TimeSpan.FromMinutes(2)
             );
         }
 
