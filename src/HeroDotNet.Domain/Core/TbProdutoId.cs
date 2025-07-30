@@ -1,5 +1,8 @@
-﻿namespace HeroDotNet.Domain.Core;
+﻿using System.Text.Json.Serialization;
 
+namespace HeroDotNet.Domain.Core;
+
+[JsonConverter(typeof(TbProdutoIdJsonConverter))]
 public readonly struct TbProdutoId
 {
     private readonly Guid _value;
