@@ -1,5 +1,4 @@
 ﻿using HeroDotNet.Application.Dto;
-using HeroDotNet.Domain.Core;
 using HeroDotNet.Domain.IRepository;
 using MediatR;
 
